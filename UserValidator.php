@@ -11,17 +11,15 @@ class UserValidator {
      * +@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ - checks for a string and domain that stands after the @ symbol
      * 
      * preg_match() - performs a regular expression match
+     * 
+     * also a good idea is to use filter_var() function to validate email instead of regular expressions
      * @param string $email
      * @return bool
      */
     public function validateEmail(string $email): bool {
         $pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
 
-        if (!preg_match($pattern, $email)) {
-            return false;
-        } else {
-            return true;
-        }
+        return preg_match($pattern, $email) ? true : false;
     }
 
     /**
@@ -39,10 +37,22 @@ class UserValidator {
     public function validatePassword(string $password): bool {
         $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
 
-        if (!preg_match($pattern, $password)) {
-            return false;
-        } else {
-            return true;
-        }
+        return preg_match($pattern, $password) ? true : false;
     }
+}
+
+$validator = new UserValidator();
+$email = "test@example.com";
+$password = "StrongPass1!";
+
+if ($validator->validateEmail($email)) {
+    echo "Email is valid.\n";
+} else {
+    echo "Email is invalid.\n";
+}
+
+if ($validator->validatePassword($password)) {
+    echo "Password is valid.\n";
+} else {
+    echo "Password is invalid.\n";
 }
