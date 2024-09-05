@@ -11,8 +11,13 @@ class UserValidator {
         }
     }
 
-    
     public function validatePassword(string $password): bool {
-        return true;
+        $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
+
+        if (!preg_match($pattern, $password)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
